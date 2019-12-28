@@ -5,12 +5,12 @@ A collection of some descriptions and accompanying code on various techniques th
 Divided into the following tips:
 
 * 1 Building Widgets
-    * 1.1 [Using Dropdowns to toggle fields displayed in a table](###-1.1-Using-dropdowns-to-toggle-fields-displayed-in-a-table)
+    * 1.1 [Using Dropdowns to toggle fields displayed in a table](#11-using-dropdowns-to-toggle-fields-displayed-in-a-table)
 
 * 2 Customizing Datastores
-    * 2.1 [Using Spreadsheet values to prototype](###-using-spreadsheet-values-to-prototype)
-    * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](###-optimizing-load-times-for-widgets-using-calculated-datastores)
-    * 2.3 [Handling permissions with Organizational Units](###-2.3-handling-permissions)
+    * 2.1 [Using Spreadsheet values to prototype](#21-using-spreadsheet-values-to-prototype)
+    * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](#22-optimizing-load-times-for-widgets-using-calculated-datastores)
+    * 2.3 [Handling permissions with Organizational Units](#23-handling-permissions)
 
 ## 1 Building Widgets
 
