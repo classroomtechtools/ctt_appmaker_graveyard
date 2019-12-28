@@ -13,9 +13,9 @@ Tips are outlined as below:
     * 2.3 [Handling permissions](#23-handling-permissions)
 
 3. Utilizing Organization Units
-	* 3.1 On AppMaker's Directory Model
-	* 3.2 Install Server-side OU Service
-	* 3.3 Storing results from OU Service in Settings datastore
+	* 3.1 [On AppMaker's Directory Model](#31-on-appmakers-directory-model)
+	* 3.2 [Install Server-side OU Service](#32-install-server-side-ou-service)
+	* 3.3 [Storing results from OU Service in Settings datastore](#33-storing-results-from-ou-service-in-settings-datastore)
 
 
 ## 1 Building Widgets
