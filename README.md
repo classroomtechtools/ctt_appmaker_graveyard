@@ -5,15 +5,16 @@ A collection of some descriptions and accompanying code on various techniques th
 Divided into the following tips:
 
 * 1 Building Widgets
-    * 1.1 Using Dropdowns to toggle fields displayed in a table
+    * 1.1 [Using Dropdowns to toggle fields displayed in a table](###-1.1-Using-dropdowns-to-toggle-fields-displayed-in-a-table)
 
 * 2 Customizing Datastores
-    * 2.1 Using Spreadsheet values to prototype
-    * 2.2 Optimizing Load times for Widgets using Calculated Datastores
+    * 2.1 [Using Spreadsheet values to prototype](###-using-spreadsheet-values-to-prototype)
+    * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](###-optimizing-load-times-for-widgets-using-calculated-datastores)
+    * 2.3 [Handling permissions with Organizational Units](###-2.3-handling-permissions)
 
 ## 1 Building Widgets
 
-### 1.1  Using Dropdowns to toggle fields displayed in a table
+### 1.1 Using Dropdowns to toggle fields displayed in a table
 
 #### Best for mobile
 
@@ -468,3 +469,42 @@ function ExecuteCCDatastore(query, factory, callback) {
 ```
 
 On the first run, the application will use the server to get the results. On the second run, it will use the info stored in localStorage. It will use the latter until `makeDataDirty` is invoked.
+
+### 2.3 Handling permissions
+
+I work with schools, which require server-side handling of data so that information that is not intended for the end user is not even downloaded from the datastore. This is the manner in which I implement this feature.
+
+The way I solve server-side permissions is to have an Audience datasource with id as primary key and Name as string. Then other datastores have many-to-many relationship to that Aduience datastore. 
+
+Then server-side, I can filter them out.
+
+```js
+query.filters.Audience.Name._in = [‘SchoolOne’];```
+//or
+query.filters.Audience.Name._equals = ‘SchoolOne’;
+```
+
+This means that each datasource has to be populated with relevant Audience information for each item.
+
+It also means you need a way to get “SchoolOne” to your server side, which you can do with properties (parameters). In my case, on the AppLoad section, I actually go through each datasource in the app, then it automatically feeds each of them the organizational unit info, which I have at load time.
+
+```js
+// executes during app load time:
+var orgUnit = getOrgUnit();
+Object.keys(app.datasources).filter(function (key) {
+  return key.indexOf(‘_’) !== 0;  // weed out internal properties
+}).forEach(function (name) {
+  var ds;
+  ds = app.datasources[name];
+  if (ds .properties && ds.properties.hasOwnProperty(‘orgUnit’))
+    ds.properties.orgUnit = orgUnit;
+});
+```
+
+That way I can just do this in the server side script:
+
+```
+query.filters.Audience.Name._in = [query.parameters.orgUnit];
+//or
+query.filters.Audience.Name._equals = query.parameters.orgUnit;
+```
