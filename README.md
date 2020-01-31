@@ -42,7 +42,8 @@ You need to install the Splah Page from a super user account, or one that has pe
 3. When "Complete" is shown, go to the hamburger menu and click on "Database", scroll down to where it says "Edit Audience" and inspect the settings for each OU.
     1. Make an OU active by flipping the active state
     2. Choose a meanginful material icon to use
-4. From the menu, choose "Add a global tab" and give it a name
+4. From the menu, choose "Add a global tab" and give it a name.
+5. After creating the new global tab, return to the database tab, look at "Categories" find the tab you just made, and check the box of which audiences the tab should displays to. (I never got around to adding this to the above end-user interface.)
 5. From the menu, choose "Add a global button" and work through the user interface to add a button
 6. There is a **bug** where, under some circumstances, you will not see any buttons until you click on one of the tabs. It has to do with the app saving the location for the next time, which isn't invoked until you click on one of the tabs. (This bug is occurs once.)
 7. Go to the menu and see "Starred Items" which are your Drive files that you have starred. There is also an interface there where you can bulk unstar items.
