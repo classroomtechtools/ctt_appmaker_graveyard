@@ -1,15 +1,19 @@
 # My AppMaker Graveyard
 
-For two years, ever since AppMaker was introduced to the edu domain, I invested both personal time and professional credibility that this was a sustainable platform. In Janurary 2020, Google Cloud Platform killed it. This is where I document what I did and what I learned.
+For two years, ever since [AppMaker](https://appmaker.google.com/) was introduced to the edu domain, I invested both personal time and professional credibility that this was a sustainable platform. It was a joy to use and was such a compeling platform.
 
-* The projects
+In Janurary 2020, Google Cloud Platform killed it. This is where I document what I built and what I learned. Among what I learned is that I cannot trust Google's internal processes from costing a teacher-cum-independent developer substantial time and effort. 
+
+I hope the work speaks for itself.
+
+* [The projects](https://github.com/classroomtechtools/appmaker_techniques#the-projects)
     * Splash Page
     * Student Directory
     * Daily Notices
     * Enrollment Figures
     * Grade Reporter
     * ...
-* Tips & Techniques
+* [AppMaker Tips & Techniques](https://github.com/classroomtechtools/appmaker_techniques#appmaker-techniques)
     * Building widgets
     * Customizing Datastores
 
@@ -30,7 +34,7 @@ From a technical perspective, what makes it really interesting is that the sourc
 You need to install the Splah Page from a super user account, or one that has permissions to Admin Directory.
 
 1. Install the OU Service first, per [these instructions](#32-install-server-side-ou-service). When you install, note the address the OU service is published to. 
-2. Download the zip file, make a new project, import it
+2. [Download the zip file](SplashPageOpenSource_MIT.zip?raw=true), make a new project, import it
 3. Open the `Ou` server-side file, and change line #4 to match your url for the OU service, and the password if you changed it.
 2. Wait as the database is populated with all OUs found on your domain, and your super admin user is created
 3. When "Complete" is shown, go to the hamburger menu and click on "Database", scroll down to where it says "Edit Audience" and inspect the settings for each OU.
@@ -43,6 +47,11 @@ You need to install the Splah Page from a super user account, or one that has pe
 8. Go to the menu and see the "Search All" which presents an interface that lets you filter global, private, and starred buttons in one place.
 6. You should then be able to publish it to the domain and other users can log in and see the global tabs and buttons you made, as well as create their own.
 
+### Photos
+
+[Desktop](splash_desktop.png?raw=true)
+
+[Mobile](splash_mobile.png?raw=true)
 
 
 # AppMaker Techniques
