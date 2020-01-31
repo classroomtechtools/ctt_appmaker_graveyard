@@ -49,15 +49,20 @@ You need to install the Splah Page from a super user account, or one that has pe
 
 A collection of some descriptions and accompanying code on various techniques that I've learned over two years of building with Google AppMaker.
 
-Divided into the following tips:
+Tips are outlined as below:
 
-* 1 Building Widgets
-    * 1.1 [Using Dropdowns to toggle fields displayed in a table](###-1.1-using-dropdowns-to-toggle-fields-displayed-in-a-table)
+1. Building Widgets
+	* 1.1 [Using Dropdowns to toggle fields displayed in a table](#11-using-dropdowns-to-toggle-fields-displayed-in-a-table)
 
-* 2 Customizing Datastores
-    * 2.1 [Using Spreadsheet values to prototype](###-using-spreadsheet-values-to-prototype)
-    * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](###-optimizing-load-times-for-widgets-using-calculated-datastores)
-    * 2.3 [Handling permissions](###-2.3-handling-permissions)
+2. Customizing Datastores
+    * 2.1 [Using Spreadsheet values to prototype](#21-using-spreadsheet-values-to-prototype)
+    * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](#22-optimizing-load-times-for-widgets-using-calculated-datastores)
+    * 2.3 [Handling permissions](#23-handling-permissions)
+
+3. Utilizing Organization Units
+	* 3.1 [On AppMaker's Directory Model](#31-on-appmakers-directory-model)
+	* 3.2 [Install Server-side OU Service](#32-install-server-side-ou-service)
+	* 3.3 [Storing results from OU Service in Settings datastore](#33-storing-results-from-ou-service-in-settings-datastore)
 
 ## 1 Building Widgets
 
@@ -555,3 +560,63 @@ query.filters.Audience.Name._in = [query.parameters.orgUnit];
 //or
 query.filters.Audience.Name._equals = query.parameters.orgUnit;
 ```
+
+### 3. Utilizing Organization Units
+
+The organizational unit is a very useful thing to have enabled on your AppMaker apps. The way I added this ability was to enable permissions dependingo on the role assigned in the Google Directory Organizational Unit model.
+
+#### 3.1 On AppMaker's Directory Model
+
+This is a bit of rant: You would think that the build-in Directory Model available would allow for an easy way for developers to access to [Directory API's orgUnitPath field](https://developers.google.com/admin-sdk/directory/v1/reference/orgunits). The OU is such a fundamental element to access restrictions that will be available to the end user, and knowing that data point through an AppMaker instance is pretty much vital to pretty much every single app I have written.
+
+#### 3.2 Install Server-side OU Service
+
+In order to erect a service that AppMaker can use to know which organizational unit the current logged in user belong to, we'll launch a web service via Google Apps Scripts that works around its current lack of feature.
+
+The following script can be installed on your domain. You'll need to have `AdminDirectory` advanced service enabled, and it'll need to be deployed as a web app with access "Anyone, even anonymous." Note that this open permission is necessary in order to work properly from an AppMaker instance.
+
+```js
+var SECRET = 'longpassword';  // ensure that you have some sort of passcode for a simple layer of security
+
+function doGet(e) {
+  var jsonString, result;
+  
+  if (!e.parameter.secret || e.parameter.secret !== SECRET || !e.parameter.user) {
+  	result = '{error: "Permission denied"}';
+  } else  {
+	  try {
+	    result = AdminDirectory.Users.get(e.parameter.user);
+	  } catch (e) {
+	    result = '{error: "' + e.message.replace(/"/g, ' ') + '"}';
+	  }
+  }	  
+  jsonString = JSON.stringify(result);  
+  return ContentService.createTextOutput(jsonString).setMimeType(ContentService.MimeType.JSON);
+}
+
+function testDoGet() {
+  var e = {};
+  e.parameter = {user: 'useremailaddress'};
+  e.parameter.secret = SECRET;
+  var result = JSON.parse(doGet(e).getContent());
+  Logger.log(typeof result);
+  Logger.log(result.orgUnitPath);
+}
+```
+
+You can use the `testDoGet` function to ensure it's working propertly. 
+
+
+#### 3.3 Storing results from OU Service in Settings datastore
+
+Now that we have an OU service enabled on our domain, we utilize it in an AppMaker server-side code. 
+
+From a server-side code in AppMaker, you would need to call it with something like the following:
+
+```js
+var response = UrlFetchApp.fetch('https://script.google.com/.../exec?secret=longpassword&user=' + app.user.email);
+var json = JSON.parse(response);
+var mainOU = json.orgUnitPath.split('/')[1]; // get the "main" OU
+```
+
+Now that you have the org unit of the current logged in user, you can take action accordingly. For example, maintain a `Settings` datastore for every logged in user, and store the OU information there.
