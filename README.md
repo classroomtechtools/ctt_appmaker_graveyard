@@ -1,3 +1,50 @@
+# My AppMaker Graveyard
+
+For two years, ever since AppMaker was introduced to the edu domain, I invested both personal time and professional credibility that this was a sustainable platform. In Janurary 2020, Google Cloud Platform killed it. This is where I document what I did and what I learned.
+
+* The projects
+    * Splash Page
+    * Student Directory
+    * Daily Notices
+    * Enrollment Figures
+    * Grade Reporter
+    * ...
+* Tips & Techniques
+    * Building widgets
+    * Customizing Datastores
+
+# The projects
+
+## Splash Page
+
+This is the landing page used at the school where I work. We use it to collate links to various places on our intranet that different members of the community, grouped by audience, can use to find information. The audiences are grouped by organizational units.
+
+It has the ability for admins to publish button-like links to different audicence / OUs, and for individual users to keep their own button links. Individuals can also utilize starring items in their Google Drive to collate their buttons. It works well on both desktop and mobile.
+
+It is basically just a bookmarking tool with some basic CMS features. What makes it interesting from the user's perspective is that anytime they need something, instead of rooting through their inboxes looking for a link to something, they just consult the Splash Page. When management or administration need to publish a link, they can do so.
+
+From a technical perspective, what makes it really interesting is that the source of truth used for determining permissions is the `orgUnitPath` exposed via `AdminDirectory`. This is not a feature that AppMaker had by default, but because it was "low code" instead of "no code" I was able to fashion a nice solution. (AppMaker's replacement is a no code platform.)
+
+### Installation
+
+You need to install the Splah Page from a super user account, or one that has permissions to Admin Directory.
+
+1. Install the OU Service first, per [these instructions](#32-install-server-side-ou-service). When you install, note the address the OU service is published to. 
+2. Download the zip file, make a new project, import it
+3. Open the `Ou` server-side file, and change line #4 to match your url for the OU service, and the password if you changed it.
+2. Wait as the database is populated with all OUs found on your domain, and your super admin user is created
+3. When "Complete" is shown, go to the hamburger menu and click on "Database", scroll down to where it says "Edit Audience" and inspect the settings for each OU.
+    1. Make an OU active by flipping the active state
+    2. Choose a meanginful material icon to use
+4. From the menu, choose "Add a global tab" and give it a name
+5. From the menu, choose "Add a global button" and work through the user interface to add a button
+6. There is a **bug** where, under some circumstances, you will not see any buttons until you click on one of the tabs. It has to do with the app saving the location for the next time, which isn't invoked until you click on one of the tabs. (This bug is occurs once.)
+7. Go to the menu and see "Starred Items" which are your Drive files that you have starred. There is also an interface there where you can bulk unstar items.
+8. Go to the menu and see the "Search All" which presents an interface that lets you filter global, private, and starred buttons in one place.
+6. You should then be able to publish it to the domain and other users can log in and see the global tabs and buttons you made, as well as create their own.
+
+
+
 # AppMaker Techniques
 
 A collection of some descriptions and accompanying code on various techniques that I've learned over two years of building with Google AppMaker.
@@ -5,12 +52,12 @@ A collection of some descriptions and accompanying code on various techniques th
 Divided into the following tips:
 
 * 1 Building Widgets
-    * 1.1 [Using Dropdowns to toggle fields displayed in a table](###-1.1-Using-dropdowns-to-toggle-fields-displayed-in-a-table)
+    * 1.1 [Using Dropdowns to toggle fields displayed in a table](###-1.1-using-dropdowns-to-toggle-fields-displayed-in-a-table)
 
 * 2 Customizing Datastores
     * 2.1 [Using Spreadsheet values to prototype](###-using-spreadsheet-values-to-prototype)
     * 2.2 [Optimizing Load times for Widgets using Calculated Datastores](###-optimizing-load-times-for-widgets-using-calculated-datastores)
-    * 2.3 [Handling permissions with Organizational Units](###-2.3-handling-permissions)
+    * 2.3 [Handling permissions](###-2.3-handling-permissions)
 
 ## 1 Building Widgets
 
@@ -479,7 +526,7 @@ The way I solve server-side permissions is to have an Audience datasource with i
 Then server-side, I can filter them out.
 
 ```js
-query.filters.Audience.Name._in = [‘SchoolOne’];```
+query.filters.Audience.Name._in = [‘SchoolOne’];
 //or
 query.filters.Audience.Name._equals = ‘SchoolOne’;
 ```
