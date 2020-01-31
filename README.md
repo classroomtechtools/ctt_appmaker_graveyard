@@ -2,7 +2,7 @@
 
 For two years, ever since [AppMaker](https://appmaker.google.com/) was introduced to the edu domain, I invested both personal time and professional credibility that this was a sustainable platform. It was a joy to use and was such a compeling platform.
 
-In Janurary 2020, Google Cloud Platform killed it. This is where I document what I built and what I learned. Among what I learned is that one cannot trust Google's internal processes. In an effort to go from teacher to independent consultant and developer, substantial time and effort was invested here.
+In Janurary 2020, Google Cloud Platform [killed it](https://gsuiteupdates.googleblog.com/2020/01/app-maker-update.html). This is where I document what I built and what I learned. Among what I learned is that one cannot trust Google's internal processes. In an effort to go from teacher to independent consultant and developer, substantial time and effort was invested here.
 
 I hope the work speaks for itself.
 
