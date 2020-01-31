@@ -8,8 +8,8 @@ I hope the work speaks for itself.
 
 * [The projects](https://github.com/classroomtechtools/appmaker_techniques#the-projects)
     * Splash Page
-    * Student Directory
     * Daily Notices
+    * Student Directory
     * Enrollment Figures
     * Grade Reporter
     * ...
@@ -49,9 +49,24 @@ You need to install the Splah Page from a super user account, or one that has pe
 
 ### Photos
 
-[Desktop](splash_desktop.png?raw=true)
+Desktop Version
 
-[Mobile](splash_mobile.png?raw=true)
+![Desktop](splash_desktop.png?raw=true)
+
+Mobile version
+
+![Mobile](splash_mobile.png?raw=true)
+
+## Daily Notices
+
+In the same vein as the Spash Page that has the concept of audiences determined by the organizational units, instead of links this app publishes bulletin-like notifications. Authors can choose which group of individuals the notice is displayed to.
+
+Code and further explanation forthcoming.
+
+### Photos
+
+![Daily Notices](daily_notices.png?raw=true)
+
 
 
 # AppMaker Techniques
