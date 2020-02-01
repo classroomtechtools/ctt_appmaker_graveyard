@@ -12,9 +12,9 @@ I hope the work speaks for itself.
     * [Splash Page](https://github.com/classroomtechtools/ctt_appmaker_graveyard#splash-page)
     * [Daily Notices](https://github.com/classroomtechtools/ctt_appmaker_graveyard#daily-notices)
     * [Student Directory](https://github.com/classroomtechtools/ctt_appmaker_graveyard#student-directory)
-    * Bulk Email Reporter
+    * [Bulk Email Reporter](https://github.com/classroomtechtools/ctt_appmaker_graveyard#bulk-email-reporter)
+    * [ManageBac Progress Reporter](https://github.com/classroomtechtools/ctt_appmaker_graveyard#managebac-progress-reporter)
     * Enrollment Figures
-    * Grade Reporter
     * ...
 * [AppMaker Tips & Techniques](https://github.com/classroomtechtools/appmaker_techniques#appmaker-techniques)
     * Building widgets
@@ -138,7 +138,7 @@ An interesting implementation here is that for the log feature, I actually just 
 
 This runs as the developer who is assumed to have rights to `AdminDirectory.Members.list`.
 
-1. Download [the zip](zips/Bulk Emails_OpenSource_MIT), make new project, import.
+1. Download [the zip](zips/BulkEmails_OpenSource_MIT), make new project, import.
 
 ## ManageBac Progress Reporter
 
