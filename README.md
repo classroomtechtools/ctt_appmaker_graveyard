@@ -9,9 +9,9 @@ I hope the work speaks for itself.
 (Note: Will be adding more zips and explanations over time.)
 
 * [The projects](https://github.com/classroomtechtools/appmaker_techniques#the-projects)
-    * Splash Page
-    * Daily Notices
-    * Student Directory
+    * [Splash Page](https://github.com/classroomtechtools/ctt_appmaker_graveyard#splash-page)
+    * [Daily Notices](https://github.com/classroomtechtools/ctt_appmaker_graveyard#daily-notices)
+    * [Student Directory](https://github.com/classroomtechtools/ctt_appmaker_graveyard#student-directory)
     * Enrollment Figures
     * Grade Reporter
     * ...
@@ -82,7 +82,7 @@ Features I was currently building:
 ## Installation instructions
 
 1. This also need the OU Service.
-2. [Download the zip](DailyNotices OpenSource_MIT.zip?raw=true), make new project, import
+2. [Download the zip](DailyNoticesOpenSource_MIT.zip?raw=true), make new project, import
 3. Switch to "Development" pane, and manually add the following to the "Audiences" datasource: `Students`, `Parents`, and `Staff`
     * This app is hard coded to only work with these three audiences
 4. You can add notices in the future, determining how long they are displayed
