@@ -35,7 +35,7 @@ From a technical perspective, what makes it really interesting is that the sourc
 
 You need to install the Splah Page from a super user account, or one that has permissions to Admin Directory.
 
-1. Install the OU Service first, per [these instructions](#32-install-server-side-ou-service). When you install, note the address the OU service is published to. 
+1. Install the OU Service first, per [these instructions](#32-install-server-side-ou-service). When you install, note the address the OU service is published to.
 2. [Download the zip file](SplashPageOpenSource_MIT.zip?raw=true), make a new project, import it
 3. Open the `Ou` server-side file, and change line #4 to match your url for the OU service, and the password if you changed it.
 2. Wait as the database is populated with all OUs found on your domain, and your super admin user is created
@@ -64,11 +64,57 @@ Mobile version
 
 In the same vein as the Spash Page that has the concept of audiences determined by the organizational units, instead of links this app publishes bulletin-like notifications. Authors can choose which group of individuals the notice is displayed to.
 
-Code and further explanation forthcoming.
+The idea here is to avoid the "death by email" phenomenon common in schools, where multiple emails an be sent in a single day. Academic staff like having one, collated place for any announcement for the day.
+
+Features:
+
+* Authors can add a notice in the future, and run for up to two weeks
+* Incorporates [moment library](https://momentjs.com/) to override browser timezone behaviour to be for the intended timezone
+* Older notices sink to the bottom of a day
+
+Features I was currently building:
+
+* Ability for users to subscribe to the collated notices on a daily basis, sent to their inbox via triggers
+* Ability for users to attach Drive files
+* Hashtags
+
+
+## Installation instructions
+
+1. This also need the OU Service.
+2. [Download the zip](DailyNotices OpenSource_MIT.zip?raw=true), make new project, import
+3. Switch to "Development" pane, and manually add the following to the "Audiences" datasource: `Students`, `Parents`, and `Staff`
+    * This app is hard coded to only work with these three audiences
+4. You can add notices in the future, determining how long they are displayed
+
 
 ### Photos
 
 ![Daily Notices](daily_notices.png?raw=true)
+
+## Student Directory
+
+In addition to offering a search tool to find student head shots and profile information, the Student Directory is also a workflow solution. A common operation in schools for management and administration is to email a group of students, and their parents. Or to email all the teachers who teach that student.
+
+Using this tool, users can identity the students they are interested in, and copy and paste lists of email addresses so they can bring it into their email browser, etc.
+
+A typical operation looks like this:
+
+1. Search for "Grade 8"
+2. Tick the boxes next to their names of the ones you are intending to email
+3. Go to "Selected Students"
+4. Scroll down to "Student Emails" and click to copy, paste into gmail
+5. Scroll down to "Parent emails" and click to copy, paste into gmail
+
+### External API
+
+This tool integrates with ManageBac's API as the source of truth. Using a calculated datasource and a service written with AppScripts, the app quickly displays search results based on information from that external source, including a caching mechanism.
+
+### Photos
+
+Using
+
+![Student Directory](student_directory.png?raw=true)
 
 
 
@@ -100,19 +146,19 @@ Tips are outlined as below:
 You have a table whose fields can be changed by the user with a dropdown. For mobile, you want to conserve space, allowing the user to hide the column completely. For example, a table that lists students, and the user can choose to see the `homeroom` field of the datastore (the default), or change it to view the `grade` field or `gender` field.
 
 ```
-┌ Dropdown ───────────┐                         
+┌ Dropdown ───────────┐
 │                     │
-│ Homeroom            │◀── Changing this dropdown's value                         
-└─────────────────────┘                                                         
-┌───────────────────────────┐                       
-│ Name              ■  HR   │ (Checkbox toggle to hide)                          
-├ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┤                    
-│                           │                       
-│ Happy Student       8M    │                       
-│                           │◀────── Changes field values   
-│ Happiest Student    7R    │                       
-│                           │                       
-└───────────────────────────┘                                                                
+│ Homeroom            │◀── Changing this dropdown's value
+└─────────────────────┘
+┌───────────────────────────┐
+│ Name              ■  HR   │ (Checkbox toggle to hide)
+├ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┤
+│                           │
+│ Happy Student       8M    │
+│                           │◀────── Changes field values
+│ Happiest Student    7R    │
+│                           │
+└───────────────────────────┘
 ```
 
 Here is the setup for solution below:
@@ -142,7 +188,7 @@ On desktop view, you could combine the Dropdown, Checkbox, and Label into one ob
 
 ### 2.1 Using Spreadsheet values to prototype
 
-It can be advantageous to use a spreadsheet to build a simple application, or to prototype for a more complicated app. It is also helpful to have randomized data for such purposes. 
+It can be advantageous to use a spreadsheet to build a simple application, or to prototype for a more complicated app. It is also helpful to have randomized data for such purposes.
 
 In this example, we use a very simple solution that uses a GSheet as the data's backbone. If there an error is encountered, it just outputs the error and tries to continue reading in.
 
@@ -164,7 +210,7 @@ In this example, we use a very simple solution that uses a GSheet as the data's 
 ```js
 /**
  * DataFromSpreadsheet: Read in Spreadsheet info for a Calculated Datasource in AppMaker. Use a spreadsheet to define a datasource.
- *                      Useful for data modeling, simple Apps. 
+ *                      Useful for data modeling, simple Apps.
  *                      Does not support paging; sheets with large number of rows will see performance penalties
  * @param {object} params
  * @param {string} params.spreadsheetId The ID of the source spreadsheet
@@ -177,7 +223,7 @@ In this example, we use a very simple solution that uses a GSheet as the data's 
  */
 function DataFromSpreadsheet(params) {
   var ss, sheet, data, model;
-  
+
   // Here we are preparing the default params available to this function
   // You can just manually put the ID in order to simply calling it from the datasources
   params = params || {};
@@ -193,26 +239,26 @@ function DataFromSpreadsheet(params) {
   // If this fails, an error will appear in the console (error automatically thrown)
   ss = SpreadsheetApp.openById(params.spreadsheetId);
   //
-  
+
   // Let's get the sheet we are looking for
   // If this failes, we manually throw an error which will apear in the console
   sheet = ss.getSheetByName(params.sheetName);
   if (!sheet) throw Error("No sheet by name of " + params.sheetName);
   //
 
-  // Before we start reading in, force the spreadsheet to recalc, so if we use any random numbers 
+  // Before we start reading in, force the spreadsheet to recalc, so if we use any random numbers
   // they are random for each read-in
   if (params.recalc) {
     sheet.getRange(1, 1).setValue(sheet.getRange(1, 1).getValue());
     SpreadsheetApp.flush();
   }
   //
-  
+
   // Read in the raw data from the chosen sheet
   // We will loop through this in order to derive the correct return values
   data = sheet.getDataRange().getValues();
-  // 
-  
+  //
+
   // We have to use the model as given in AppMaker's server-side API framework
   // The variable 'app' is provided to us by that framework
   model = app.models[params.datasource];
@@ -225,11 +271,11 @@ function DataFromSpreadsheet(params) {
   return data.slice(params.numHeaders).reduce(
     function (acc, row, index) {
       var record, ok;
-            
+
       // Use the server-side API to make a new, blank record that we will fill in the inner loop
       record = model.newRecord();
       //
-      
+
       // The inner loop. Go through each item in the row (value) to set the info
       // We use javascript's Array.every to loop as it can short circuit if an unexpected error occurs
       ok = row.every(function (value, index) {
@@ -274,9 +320,9 @@ Your application's data uses a google or other external API as the source of tru
 
 The Server-side Calculated Datastore is completed the "normal" way at first. Then, when you've got your panels and widgets pointing to this calculated datastore correctly, you can switch those widgets to an equivalent CC datastore instead. You still have the original datastore around, which is the source of truth for our data.
 
-You then create a caching mechanism between these two, where the CC datastore consults the original server-side ds whenever the local version is "dirty." So, in this way, a local version is kept on the browser for speed, but the datastore on the server is used, and then saved locally, and the local version is updated. This means we need to store some numerical versioning data locally, and on the server. 
+You then create a caching mechanism between these two, where the CC datastore consults the original server-side ds whenever the local version is "dirty." So, in this way, a local version is kept on the browser for speed, but the datastore on the server is used, and then saved locally, and the local version is updated. This means we need to store some numerical versioning data locally, and on the server.
 
-We'll use `localStorage` for local versioning info and the data itself. For the versioning info on the server, we'll use `PropertiesServices` (the server data will be the original store). 
+We'll use `localStorage` for local versioning info and the data itself. For the versioning info on the server, we'll use `PropertiesServices` (the server data will be the original store).
 
 We might have globally-significant data and we might have user-significant data, and this is for the developer to answer. Is the datastore info per-user or global?
 
@@ -310,21 +356,21 @@ function getDataVersion() {
 }
 
 function Versioning(which, key) {
-  
+
   var defaultValue = '0';
-  
+
   function getProp() {
     if (['User', 'Script'].indexOf(which) === -1) throw Error("Expecting 'User' or 'Script'");
     return PropertiesService[ 'get' + which + 'Properties' ].call(PropertiesService);
   }
-  
+
   /**
    * incrementVersion: Add one to User- or Script-context at {key}
    * @returns {number}
    */
   function incrementVersion() {
     var prop, value;
-  
+
     prop = getProp(which);
     value = prop.getProperty(key);
     if (!value || isNaN(value)) {
@@ -335,14 +381,14 @@ function Versioning(which, key) {
     return parseInt(value);
 
   }
-  
+
   /**
    * getVersion: Return the raw data at {which}-Property {key}
    * @returns {number}
    */
   function getVersion() {
-    var prop, value;  
-    
+    var prop, value;
+
     prop = getProp(which);
     value = prop.getProperty(key);
     if (!value || isNaN(value)) {
@@ -373,7 +419,7 @@ The client-side datastore needs to have the exact same fields as your server-sid
 ```js
 function LocalVersioning(which, key) {
   var defaultValue = '-1';
-  
+
   function getProp() {
     if (!window.localStorage || !window.localStorage.getItem(key)) {
       if (window.localStorage && !window.localStorage.getItem(key)) {
@@ -382,9 +428,9 @@ function LocalVersioning(which, key) {
         window.localStorage.setItem(key, defaultValue);
         return localStorage;
       }
-      
+
       // return a mock object with default value
-      return { 
+      return {
         getItem: function (key) {
           return defaultValue;
         },
@@ -396,7 +442,7 @@ function LocalVersioning(which, key) {
       return localStorage;
     }
   }
-  
+
   /**
    * Reset
    */
@@ -406,30 +452,30 @@ function LocalVersioning(which, key) {
     prop.setItem(key, defaultValue);
     return defaultValue;
   }
-  
+
   /**
    * incrementVersion: Set version to User- or Script-context at {key}
-   * @param {number} value 
+   * @param {number} value
    * @returns {number}
    */
   function setVersion(value) {
     var prop;
-  
+
     prop = getProp(which);
     if (!value || isNaN(value)) {
       value = defaultValue;
     }
     prop.setItem(key, value.toString());
   }
-  
-  
+
+
   /**
    * getVersion: Return the raw data at {which}-Property {key}
    * @returns {number}
    */
   function getVersion() {
-    var prop, value;  
-    
+    var prop, value;
+
     prop = getProp(which);
     value = prop.getItem(key);
     if (!value || isNaN(value)) {
@@ -484,7 +530,7 @@ function ExecuteCCDatastore(query, factory, callback) {
           values.push(value);
           return record;
         });
-        
+
         // save to browswer
         console.log(JSON.stringify(values));
         if (window.localStorage) window.localStorage.setItem(key, JSON.stringify(values));
@@ -494,36 +540,36 @@ function ExecuteCCDatastore(query, factory, callback) {
         callback.failure(err);
       }
     });
-    
+
 
   }
-  
+
   /**
-   * 
-   */ 
+   *
+   */
   function fromLocal () {
     console.log('fromLocal');
     // see if anything available in store, if not, fallback to fromOriginal
     var ret, values;
-    
+
     if (!window.localStorage || !window.localStorage.getItem(key)) return fromServer();
-    
+
     try {
       values = JSON.parse(window.localStorage.getItem(key));
     } catch (e) {
-      // issue with parsing (corruption?), reset 
+      // issue with parsing (corruption?), reset
       localVersioning.reset();
       return fromServer();
     }
     ret = values.map(function (value) {
-      var record; 
+      var record;
       record = factory.create();
       Object.keys(value).forEach(function (field) {
         record[field] = value[field];
       });
       return record;
     });
-    
+
     callback.success(filterPass(ret));
   }
 
@@ -553,7 +599,7 @@ On the first run, the application will use the server to get the results. On the
 
 I work with schools, which require server-side handling of data so that information that is not intended for the end user is not even downloaded from the datastore. This is the manner in which I implement this feature.
 
-The way I solve server-side permissions is to have an Audience datasource with id as primary key and Name as string. Then other datastores have many-to-many relationship to that Aduience datastore. 
+The way I solve server-side permissions is to have an Audience datasource with id as primary key and Name as string. Then other datastores have many-to-many relationship to that Aduience datastore.
 
 Then server-side, I can filter them out.
 
@@ -607,7 +653,7 @@ var SECRET = 'longpassword';  // ensure that you have some sort of passcode for 
 
 function doGet(e) {
   var jsonString, result;
-  
+
   if (!e.parameter.secret || e.parameter.secret !== SECRET || !e.parameter.user) {
   	result = '{error: "Permission denied"}';
   } else  {
@@ -616,8 +662,8 @@ function doGet(e) {
 	  } catch (e) {
 	    result = '{error: "' + e.message.replace(/"/g, ' ') + '"}';
 	  }
-  }	  
-  jsonString = JSON.stringify(result);  
+  }
+  jsonString = JSON.stringify(result);
   return ContentService.createTextOutput(jsonString).setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -631,12 +677,12 @@ function testDoGet() {
 }
 ```
 
-You can use the `testDoGet` function to ensure it's working propertly. 
+You can use the `testDoGet` function to ensure it's working propertly.
 
 
 #### 3.3 Storing results from OU Service in Settings datastore
 
-Now that we have an OU service enabled on our domain, we utilize it in an AppMaker server-side code. 
+Now that we have an OU service enabled on our domain, we utilize it in an AppMaker server-side code.
 
 From a server-side code in AppMaker, you would need to call it with something like the following:
 
