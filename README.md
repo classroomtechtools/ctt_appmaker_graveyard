@@ -82,6 +82,7 @@ Features I was currently building:
 ## Installation instructions
 
 1. This also need the OU Service.
+  * You'll need to change line 9 in `Settings` server-side code file.
 2. [Download the zip](DailyNoticesOpenSource_MIT.zip?raw=true), make new project, import
 3. Switch to "Development" pane, and manually add the following to the "Audiences" datasource: `Students`, `Parents`, and `Staff`
     * This app is hard coded to only work with these three audiences
