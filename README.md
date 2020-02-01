@@ -12,6 +12,7 @@ I hope the work speaks for itself.
     * [Splash Page](https://github.com/classroomtechtools/ctt_appmaker_graveyard#splash-page)
     * [Daily Notices](https://github.com/classroomtechtools/ctt_appmaker_graveyard#daily-notices)
     * [Student Directory](https://github.com/classroomtechtools/ctt_appmaker_graveyard#student-directory)
+    * Bulk Email Reporter
     * Enrollment Figures
     * Grade Reporter
     * ...
@@ -23,6 +24,14 @@ I hope the work speaks for itself.
 
 ## Splash Page
 
+Desktop Version
+
+![Desktop](pics/splash_desktop.png?raw=true)
+
+Mobile version
+
+![Mobile](pics/splash_mobile.png?raw=true)
+
 This is the landing page used at the school where I work. We use it to collate links to various places on our intranet that different members of the community, grouped by audience, can use to find information. The audiences are grouped by organizational units.
 
 It has the ability for admins to publish button-like links to different audicence / OUs, and for individual users to keep their own button links. Individuals can also utilize starring items in their Google Drive to collate their buttons. It works well on both desktop and mobile.
@@ -33,10 +42,10 @@ From a technical perspective, what makes it really interesting is that the sourc
 
 ### Installation
 
-You need to install the Splah Page from a super user account, or one that has permissions to Admin Directory.
+You need to install the Splah Page from a super user account, or one that has permissions to Admin Directory. It runs from the user account, but needs elevated permissions to work properly. The workaround is that the first launch needs to be from a super user.
 
 1. Install the OU Service first, per [these instructions](#32-install-server-side-ou-service). When you install, note the address the OU service is published to.
-2. [Download the zip file](SplashPageOpenSource_MIT.zip?raw=true), make a new project, import it
+2. [Download the zip file](zips/SplashPageOpenSource_MIT.zip?raw=true), make a new project, import it
 3. Open the `Ou` server-side file, and change line #4 to match your url for the OU service, and the password if you changed it.
 2. Wait as the database is populated with all OUs found on your domain, and your super admin user is created
 3. When "Complete" is shown, go to the hamburger menu and click on "Database", scroll down to where it says "Edit Audience" and inspect the settings for each OU.
@@ -50,17 +59,10 @@ You need to install the Splah Page from a super user account, or one that has pe
 8. Go to the menu and see the "Search All" which presents an interface that lets you filter global, private, and starred buttons in one place.
 6. You should then be able to publish it to the domain and other users can log in and see the global tabs and buttons you made, as well as create their own.
 
-### Photos
-
-Desktop Version
-
-![Desktop](splash_desktop.png?raw=true)
-
-Mobile version
-
-![Mobile](splash_mobile.png?raw=true)
 
 ## Daily Notices
+
+![Daily Notices](pics/daily_notices.png?raw=true)
 
 In the same vein as the Spash Page that has the concept of audiences determined by the organizational units, instead of links this app publishes bulletin-like notifications. Authors can choose which group of individuals the notice is displayed to.
 
@@ -83,17 +85,16 @@ Features I was currently building:
 
 1. This also need the OU Service.
   * You'll need to change line 9 in `Settings` server-side code file.
-2. [Download the zip](DailyNoticesOpenSource_MIT.zip?raw=true), make new project, import
+2. [Download the zip](zips/DailyNoticesOpenSource_MIT.zip?raw=true), make new project, import
 3. Switch to "Development" pane, and manually add the following to the "Audiences" datasource: `Students`, `Parents`, and `Staff`
     * This app is hard coded to only work with these three audiences
 4. You can add notices in the future, determining how long they are displayed
 
 
-### Photos
-
-![Daily Notices](daily_notices.png?raw=true)
 
 ## Student Directory
+
+![Student Directory](pics/student_directory.png?raw=true)
 
 In addition to offering a search tool to find student head shots and profile information, the Student Directory is also a workflow solution. A common operation in schools for management and administration is to email a group of students, and their parents. Or to email all the teachers who teach that student.
 
@@ -107,16 +108,49 @@ A typical operation looks like this:
 4. Scroll down to "Student Emails" and click to copy, paste into gmail
 5. Scroll down to "Parent emails" and click to copy, paste into gmail
 
+### Installation
+
+Because this tool requires a AppsScript service that I'm not yet prepared to open source, I am not releasing a zip file.
+
 ### External API
 
 This tool integrates with ManageBac's API as the source of truth. Using a calculated datasource and a service written with AppScripts, the app quickly displays search results based on information from that external source, including a caching mechanism.
 
-### Photos
 
-Using
 
-![Student Directory](student_directory.png?raw=true)
+## Bulk Email Reporter
 
+![Bulk Email Reporter](pics/bulk_email.png?raw=true)
+
+
+I wrote a service that automatically populates Google Groups that the school uses for  bulk communications. It works great, except that we needed a way to increase visibility into it. The google console works well enough for me, but my colleagues needed a web app that could quickly check to make sure it was working properly.
+
+For example, a parent would claim that they did not receive an email because they hadn't been added to the bulk email system. In this way, an operator could quickly ensure that indeed they had been. The ICT Support crew also often used it to check their own tasks.
+
+Illustrated below is a the operation where a staff member wants to see which groups a particular account is a member of. It also allows:
+
+* View all memberships of any group
+* View the logs of the daily sync operations which occurred
+
+An interesting implementation here is that for the log feature, I actually just have a datasource that displays the contents of a spreadsheet. I used the code found below in the section describing how to use a spreadsheet as a datasource to implement.
+
+### Installation
+
+This runs as the developer who is assumed to have rights to `AdminDirectory.Members.list`.
+
+1. Download [the zip](zips/Bulk Emails_OpenSource_MIT), make new project, import.
+
+## ManageBac Progress Reporter
+
+![Progress Reporter](pics/progress_reporter.png?raw=true)
+
+The gradebook we use (ManageBac) is good enough for most purposes, but not so useful when it comes to doing data analysis. For example, if you want to cross reference performance with other students, it requires several clicks. 
+
+To solve this, I built a window through ManageBac's public APIs.
+
+### Installation
+
+As this tool depends upon a tool that I am not prepared to OpenSource, I'm electing to not provide a zip file.
 
 
 # AppMaker Techniques
